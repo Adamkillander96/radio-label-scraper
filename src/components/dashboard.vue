@@ -44,6 +44,7 @@
 								class="input-control"
 								v-model="radio_date_start"
 								name="radio_date_start"
+								id="radio_date_start"
 								type="date"
 							/>
 						</div>
@@ -53,6 +54,7 @@
 								class="input-control"
 								v-model="radio_date_end"
 								name="radio_date_end"
+								id="radio_date_end"
 								type="date"
 							/>
 						</div>
@@ -63,6 +65,7 @@
 								class="input-control"
 								v-model="record_label"
 								name="record_label"
+								id="record_label"
 								type="text"
 							/>
 						</div>
