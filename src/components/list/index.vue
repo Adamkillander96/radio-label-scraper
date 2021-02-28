@@ -1,5 +1,5 @@
 <template>
-	<section class="container" v-if="songs">
+	<section class="container">
 		<h2>A list of the requests you have made</h2>
 		<p>
 			When you have made a request, wait for the page to reload and it will

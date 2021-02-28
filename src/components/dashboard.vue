@@ -23,18 +23,11 @@
 			<form class="form">
 				<div>
 					<h2>Get radio songs from this record label and date</h2>
-					<p>First box is the start range.</p>
+					<p>First box is the day you wish to scrape range.</p>
 					<p>
-						The end date box <strong>has</strong> to be after the start date.
-						Otherwise this will result in errors dawg
+						In the second field, you need to type in the name of a record label.
 					</p>
-					<p>
-						In the third field you need to type in the name of a record label.
-					</p>
-					<p>
-						This tool is thrown together, so we have not balanced the requests.
-						So please keep the date ranges to max 2 weeks.
-					</p>
+					<p>This tool is thrown together, please have mercy on me.</p>
 					<div class="group">
 						<div class="item">
 							<label class="title" for="radio_date_start"
@@ -45,16 +38,6 @@
 								v-model="radio_date_start"
 								name="radio_date_start"
 								id="radio_date_start"
-								type="date"
-							/>
-						</div>
-						<div class="item">
-							<label class="title" for="radio_date_end">Select end date</label>
-							<input
-								class="input-control"
-								v-model="radio_date_end"
-								name="radio_date_end"
-								id="radio_date_end"
 								type="date"
 							/>
 						</div>
@@ -72,7 +55,7 @@
 						<div class="item">
 							<button
 								class="knapp"
-								:disabled="!(radio_date_end && record_label)"
+								:disabled="!(radio_date_start && record_label)"
 								@click.prevent="get_radio_songs()"
 							>
 								Get radio songs
@@ -107,7 +90,6 @@ export default {
 	},
 	data: () => ({
 		radio_date_start: '',
-		radio_date_end: '',
 		record_label: 'Killander Music Records',
 		channels
 	}),
@@ -120,7 +102,6 @@ export default {
 		get_radio_songs() {
 			radio.info = {
 				date_start: this.radio_date_start,
-				date_end: this.radio_date_end,
 				record_label: this.record_label
 			}
 			radio.get_songs()
@@ -130,7 +111,7 @@ export default {
 		const date = new Date()
 		const month =
 			date.getMonth() < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
-		this.radio_date_end = `${date.getFullYear()}-${month}-${date.getDate()}`
+		this.radio_date = `${date.getFullYear()}-${month}-${date.getDate()}`
 	}
 }
 </script>

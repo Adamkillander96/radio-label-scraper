@@ -4,29 +4,32 @@ import { channels } from '../assets/radio_channel_ids'
  * @description Get one specific radio channels music list
  * @param {Object} data
  * @param {Number} data.id A numeric value representing the radio channel.
- * @returns An array of objects containing the songs played on that channel that day.
+ * @returns An array of objects containing the songs played on that channel that day by the selected label.
  */
 const get_radio_channel = async (data = {}) => {
 	const { id } = data
-	const { date_start, date_end, record_label } = radio.info
+	const { date_start, record_label } = radio.info
 
 	return await fetch(
-		`https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=${id}&startdatetime=${date_start}&endDateTime=${date_end}&size=100000&format=json`,
+		`https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=${id}&startdatetime=${date_start}&size=9999&format=json`,
 		{
 			method: 'GET'
 		}
 	)
 		.then((response) => response.json())
-		.then(({ songs = [] }) =>
-			songs.filter(({ recordlabel = '' }) => recordlabel.match(record_label))
-		)
+		.then(({ songs = [] }) => {
+			console.log(songs)
+			return songs.filter(({ recordlabel = '' }) =>
+				recordlabel.match(record_label)
+			)
+		})
 		.catch((err) => err)
 }
 
 const check_local_storage = () => {
-	const { date_start, date_end, record_label } = radio.info
+	const { date_start, record_label } = radio.info
 
-	const name = `${record_label}-${date_start}-${date_end}`
+	const name = `${record_label}-${date_start}`
 	return localStorage[name] && JSON.parse(localStorage[name])
 }
 
@@ -35,11 +38,8 @@ const check_local_storage = () => {
  * @param {String} date
  */
 const get_songs = async () => {
-	const { date_start = '', date_end = '', record_label = '' } = radio.info
-	if (
-		!date_start.match(/^\d{4}-\d{2}-\d{2}$/m) &&
-		!date_end.match(/^\d{4}-\d{2}-\d{2}$/m)
-	) {
+	const { date_start = '', record_label = '' } = radio.info
+	if (!date_start.match(/^\d{4}-\d{2}-\d{2}$/m)) {
 		console.log('Fel format yo')
 		return
 	}
@@ -72,16 +72,12 @@ const get_songs = async () => {
 		})
 	})
 
-	return await Promise.all(list)
-		.then(() => {
-			localStorage.setItem(
-				`${record_label
-					.toLowerCase()
-					.replaceAll(' ', '-')}-${date_start}-${date_end}`,
-				JSON.stringify(all_songs)
-			)
-		})
-		.finally(() => location.reload())
+	return await Promise.all(list).then(() => {
+		localStorage.setItem(
+			`${record_label.toLowerCase().replaceAll(' ', '-')}-${date_start}`,
+			JSON.stringify(all_songs)
+		)
+	})
 }
 
 export const radio = {
