@@ -1,0 +1,30 @@
+:root {
+	--main-color: #2364aa;
+	--secondary-color: #fbb13c;
+	--main-dark: #11151c;
+	--main-light: #fdfdff;
+	--main-success: #2a8667;
+	--main-alert: #a8355c;
+}
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
+}
+body {
+	margin: 0;
+	font-family: 'Poppins', sans-serif;
+	color: var(--main-dark);
+	background: var(--main-light);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.title {
+	font-family: 'Roboto Slab', serif;
+	color: var(--main-color);
+}
