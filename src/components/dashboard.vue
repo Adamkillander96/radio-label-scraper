@@ -37,20 +37,24 @@
 					</p>
 					<div class="group">
 						<div class="item">
-							<label class="title" for="record_label">Select start date</label>
+							<label class="title" for="radio_date_start"
+								>Select start date</label
+							>
 							<input
 								class="input-control"
 								v-model="radio_date_start"
-								name="radio_date"
+								name="radio_date_start"
+								id="radio_date_start"
 								type="date"
 							/>
 						</div>
 						<div class="item">
-							<label class="title" for="record_label">Select end date</label>
+							<label class="title" for="radio_date_end">Select end date</label>
 							<input
 								class="input-control"
 								v-model="radio_date_end"
-								name="radio_date"
+								name="radio_date_end"
+								id="radio_date_end"
 								type="date"
 							/>
 						</div>
@@ -61,6 +65,7 @@
 								class="input-control"
 								v-model="record_label"
 								name="record_label"
+								id="record_label"
 								type="text"
 							/>
 						</div>
