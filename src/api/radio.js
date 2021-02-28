@@ -11,7 +11,7 @@ const get_radio_channel = async (data = {}) => {
 	const { date_start, date_end, record_label } = radio.info
 
 	return await fetch(
-		`https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=${id}&startdatetime=${date_start}&endDateTime=${date_end}&size=9999&format=json`,
+		`https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=${id}&startdatetime=${date_start}&endDateTime=${date_end}&size=100000&format=json`,
 		{
 			method: 'GET'
 		}
