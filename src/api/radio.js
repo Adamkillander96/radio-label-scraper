@@ -17,8 +17,8 @@ const get_radio_channel = async (data = {}) => {
 		}
 	)
 		.then((response) => response.json())
-		.then(({ songs = [] }) =>
-			songs.filter(({ recordlabel = '' }) => recordlabel.match(record_label))
+		.then(({ song = [] }) =>
+			song.filter(({ recordlabel = '' }) => recordlabel.match(record_label))
 		)
 		.catch((err) => err)
 }
