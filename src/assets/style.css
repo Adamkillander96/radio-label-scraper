@@ -1,9 +1,11 @@
 :root {
 	--main-color: #2364aa;
+	--main-color-darken: #1a4b7f;
 	--secondary-color: #fbb13c;
 	--main-dark: #11151c;
 	--main-light: #fdfdff;
 	--main-success: #2a8667;
+	--main-success-darken: #1f644d;
 	--main-alert: #a8355c;
 }
 *,

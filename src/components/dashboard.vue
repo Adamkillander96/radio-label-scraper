@@ -8,10 +8,10 @@
 				We search all of the channels regions so you don't have to manually
 				search every dang page.
 			</p>
-			<details>
+			<details v-if="get_channels">
 				<summary>The list of all the channels we scrape</summary>
 				<ul>
-					<li v-for="({ name, id }, key) in channels" :key="key">
+					<li v-for="({ name, id }, key) in get_channels" :key="key">
 						<a
 							:href="`https://sverigesradio.se/sida/latlista.aspx?programid=${id}`"
 							target="noopener noreferrer"
@@ -72,15 +72,13 @@
 						<div class="item">
 							<button
 								class="knapp"
-								:disabled="!(radio_date_end && record_label)"
+								:class="[is_loading ? 'blå' : 'grön']"
+								:disabled="!(radio_date_end && record_label) || is_loading"
 								@click.prevent="get_radio_songs()"
 							>
-								Get radio songs
+								<span v-if="is_loading">Loading!</span>
+								<span v-else>Get radio songs</span>
 							</button>
-							<p>
-								When you have clicked the button, just wait. I did not bother
-								with a proper loading button. The page will refresh itself.
-							</p>
 							<small>
 								<p>
 									If this results in an error I am not sure what happens. Call
@@ -97,10 +95,10 @@
 </template>
 
 <script>
-import { radio } from '../api/radio.js'
-import { channels } from '../assets/radio_channel_ids'
+import { mapActions, mapGetters } from 'vuex'
 
 import list from './list/index.vue'
+
 export default {
 	components: {
 		list
@@ -108,22 +106,25 @@ export default {
 	data: () => ({
 		radio_date_start: '',
 		radio_date_end: '',
-		record_label: 'Killander Music Records',
-		channels
+		record_label: 'Killander Music Records'
 	}),
 	computed: {
-		is_loading() {
-			return radio.loading
-		}
+		...mapGetters([
+			'get_channels',
+			'get_filter',
+			'get_songs',
+			'is_loading',
+			'get_message'
+		])
 	},
 	methods: {
+		...mapActions(['start_scraping']),
 		get_radio_songs() {
-			radio.info = {
+			return this.start_scraping({
 				date_start: this.radio_date_start,
 				date_end: this.radio_date_end,
 				record_label: this.record_label
-			}
-			radio.get_songs()
+			})
 		}
 	},
 	created() {
@@ -139,7 +140,7 @@ export default {
 .container {
 	max-width: 650px;
 	margin: 0 auto;
-	padding: 0 2.5rem;
+	padding: 0 2.5rem 2.5rem;
 }
 .group {
 	width: 100%;
@@ -159,7 +160,25 @@ export default {
 	display: block;
 	border-radius: 0.2rem;
 	border: 0;
-	border-bottom: 2px solid;
+	border-style: solid;
+	border-top-width: 0px;
+	border-bottom-width: 4px;
+	transition: 0.1s ease-in-out;
+	cursor: pointer;
+}
+.knapp:hover {
+	border-top-width: 3px;
+	border-bottom-width: 1px;
+}
+.grön {
+	background: var(--main-success);
+	color: var(--main-light);
+	border-color: var(--main-success-darken);
+}
+.blå {
+	background: var(--main-color);
+	color: var(--main-light);
+	border-color: var(--main-color-darken);
 }
 .input-control {
 	width: 100%;
