@@ -1,25 +1,45 @@
 <template>
-	<section class="container" v-if="songs">
-		<h2>A list of the requests you have made</h2>
+	<section class="container" v-if="get_songs">
+		<h2>A list of the songs we found of the label you selected</h2>
 		<p>
-			When you have made a request, wait for the page to reload and it will
-			appear here
+			When you have made a request and we found a song by that label. It will
+			appear down here.
 		</p>
-		<article v-for="(label_name, key) in songs" :key="key">
+		<article>
 			<header>
-				<h4>{{ key }}</h4>
+				<h3>List</h3>
 			</header>
-			<section v-for="(channel, key) in label_name" :key="key">
-				<details>
-					<summary>{{ key }} ({{ channel.length }})</summary>
-					<div v-for="(song, key) in channel" :key="key" class="">
-						<template v-for="(info, key) in song">
-							<p v-if="info" :key="key">
-								{{ key }}:
-								{{ info.match(/\/Date\(/) ? clean_date(info) : info }}
-							</p>
-						</template>
-					</div>
+			<section
+				v-for="(
+					{
+						albumname,
+						artist,
+						composer,
+						description,
+						lyricist,
+						radioid,
+						radioname,
+						recordlabel,
+						starttimeutc,
+						stoptimeutc,
+						title
+					},
+					key
+				) in get_songs"
+				:key="key"
+			>
+				<details :data-radio-id="radioid" :data-radio-name="radioname">
+					<summary>
+						{{ radioname }} ({{ clean_date(starttimeutc) }} -
+						{{ clean_date(stoptimeutc) }})
+					</summary>
+					<p>Artist: {{ artist }}</p>
+					<p>Albumname: {{ albumname }}</p>
+					<p>Composer: {{ composer }}</p>
+					<p>Description: {{ description }}</p>
+					<p>Lyricist: {{ lyricist }}</p>
+					<p>Recordlabel: {{ recordlabel }}</p>
+					<p>Title: {{ title }}</p>
 				</details>
 			</section>
 		</article>
@@ -27,6 +47,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
 	methods: {
 		clean_date(info) {
@@ -46,21 +68,7 @@ export default {
 		}
 	},
 	computed: {
-		songs() {
-			var i,
-				songs = {}
-			for (i in localStorage) {
-				if (localStorage.hasOwnProperty(i)) {
-					if (
-						i.match(/-\d{4}-\d{2}-\d{2}$/m) ||
-						(!/-d{4}-\d{2}-\d{2}$/m && typeof i === 'string')
-					) {
-						songs[i] = JSON.parse(localStorage.getItem(i))
-					}
-				}
-			}
-			return songs
-		}
+		...mapGetters(['get_songs'])
 	}
 }
 </script>
