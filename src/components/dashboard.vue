@@ -1,7 +1,7 @@
 <template>
 	<main>
 		<div class="container">
-			<h1>Radio Kollen</h1>
+			<h1>Radio Label Scraper</h1>
 			<p>
 				With this tool, you can select a date range and a record label name to
 				find out if that label played any songs on the swedish radio channel P4.
