@@ -1,5 +1,5 @@
 <template>
-	<section class="container" v-if="get_songs">
+	<section class="container" v-if="songs && songs.length">
 		<h2>A list of the songs we found of the label you selected</h2>
 		<p>
 			When you have made a request and we found a song by that label. It will
@@ -25,7 +25,7 @@
 						title
 					},
 					key
-				) in get_songs"
+				) in songs"
 				:key="key"
 			>
 				<details :data-radio-id="radioid" :data-radio-name="radioname">
@@ -47,7 +47,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapState } from 'pinia'
+import { useStore } from '../../store'
 
 export default {
 	methods: {
@@ -68,7 +69,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(['get_songs'])
+		...mapState(useStore, ['songs'])
 	}
 }
 </script>
