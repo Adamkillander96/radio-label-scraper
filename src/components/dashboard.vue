@@ -3,25 +3,16 @@
     <div class="container">
       <h1>Radio Label Scraper</h1>
       <p>
-        With this tool, you can select a date range and a record label name to
+        With this tool, you can select a week and enter a record label name to
         find out if that label played any songs on the swedish radio channel P4.
         We search all of the channels regions so you don't have to manually
         search every dang page.
       </p>
-      <details v-if="channels && channels.length">
-        <summary>The list of all the channels we scrape</summary>
-        <ul>
-          <li v-for="({ name, id }, key) in channels" :key="key">
-            <a
-              :href="`https://sverigesradio.se/sida/latlista.aspx?programid=${id}`"
-              target="noopener noreferrer"
-              v-text="name"
-            />
-          </li>
-        </ul>
-      </details>
+      <radioChannels />
       <search />
     </div>
+    <songs />
+    <searched />
   </main>
 </template>
 
@@ -29,11 +20,17 @@
 import { mapState, mapActions } from 'pinia'
 import { useStore } from '../store'
 
+import radioChannels from './list/radio_channels.vue'
 import search from './search.vue'
+import songs from './list/songs_played.vue'
+import searched from './list/ranges_searched.vue'
 
 export default {
   components: {
-    search
+    radioChannels,
+    search,
+    songs,
+    searched
   },
   data: () => ({
     radio_date_start: '',
@@ -57,21 +54,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.container {
-  max-width: 25em;
-  margin: 0 auto;
-  padding: 0 2.5rem 2.5rem;
-}
-
-.form .field {
-	padding: 1rem 0
-}
-
-.input {
-	display: block;
-	width: 100%;
-	padding: .5rem
-}
-</style>

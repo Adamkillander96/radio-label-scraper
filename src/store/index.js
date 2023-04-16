@@ -1,86 +1,52 @@
 import { defineStore } from 'pinia'
 import { useFilters } from './filters'
 
-import { channels } from '../assets/radio_channel_ids'
+import { channels } from '../shared/data/radio_channel_ids'
+import { retrive_all_radio_channels } from '../shared/api/get_radio_channels'
 
 export const useStore = defineStore('store', {
   state: () => ({
     channels,
     songs_found: [],
+    weeks_searched: [],
     loading: false,
-    message: {}
+    message: ''
   }),
   getters: {
-    is_loading: (state) => state.loading
+    is_loading: (state) => state.loading,
+    searched: (state) => {
+      const songs = state.weeks_searched
+    }
   },
   actions: {
-    set_songs_found(songs) {
-      this.songs_found.push(songs)
-    },
     set_loading(load) {
       this.loading = load
     },
     set_message(message) {
       this.message = message
     },
-    async start_scraping(data) {
+    async start_scraping() {
+
+      const { dates = [], record_label, week } = useFilters()
+
+      if (this.weeks_searched.includes(week)) {
+        this.message = 'Date range already searched.'
+        return
+      }
+
+      this.message = ''
       this.loading = true
 
-      await this.retrive_radio_channels()
-
-			this.loading = false
-    },
-    async retrive_radio_channels() {
-      const list = channels.map(
-        ({ id, name }) =>
-          new Promise(
-            async (resolve, reject) =>
-              await this.get_radio_channel({ id, name })
-                .then((songs = []) => {
-                  if (songs.length === 0) return resolve()
-
-                  return resolve(songs)
-                })
-                .catch((error) => reject(error))
-          )
-      )
-      return await Promise.all(list)
-    },
-    /**
-     * @description Get one specific radio channels music list
-     * @param {Object} data
-     * @param {Number} data.id A numeric value representing the radio channel.
-     * @param {String} data.name A string value representing the radio channel.
-     * @returns An array of objects containing the songs played on that channel that day.
-     */
-    async get_radio_channel(data = {}) {
-      const { id, name } = data
-
-      const { selectedRange } = useFilters()
-			const { from, to } = selectedRange
-
-			console.time(name)
-
-      return await fetch(
-        `https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=${id}&startDateTime=${from}&endDateTime=${to}&size=10000&format=json`,
-        {
-          method: 'GET'
-        }
-      )
-        .then((response) => response.json())
-        .then(({ song = [] }) =>
-          song.filter(({ recordlabel = '' }) => recordlabel.match(record_label))
-        )
-        .then((filtered_songs) => {
-          return filtered_songs.map((song) => {
-            song.radioid = id
-            song.radioname = name
-            this.songs_found.push(song)
-          })
+      await retrive_all_radio_channels({ dates, record_label })
+        .then((songs) => songs.flat(2))
+        .then((songs) => this.songs_found.push(...songs))
+        .then(() => this.weeks_searched.push(week))
+        .finally(() => {
+          this.loading = false
         })
-        .catch((err) => err)
-        .finally(() => console.timeEnd(name))
     }
   },
-  persist: true
+  persist: {
+    paths: ['songs_found', 'weeks_searched']
+  }
 })

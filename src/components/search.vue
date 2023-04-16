@@ -2,9 +2,13 @@
   <form class="form" @submit.prevent>
     <date class="field" />
     <record-label class="field" />
-    <button @click="search" :disabled="is_loading">
-      {{ text }}
+    <button class="btn btn-primary" @click="start_scraping" :disabled="is_loading">
+      Search
+      <span v-if="is_loading" class="spinner-border" role="status">
+        <span class="visually-hidden">Searching...</span>
+      </span>
     </button>
+    <div class="alert alert-warning my-4" role="alert" v-if="message" v-text="message" />
   </form>
 </template>
 
@@ -18,17 +22,11 @@ import recordLabel from './filters/record_label.vue'
 
 export default {
   computed: {
-    ...mapState(useStore, ['is_loading']),
-    ...mapState(useFilters, ['filter']),
-    text() {
-      return this.is_loading ? 'Söker' : 'Sök'
-    }
+    ...mapState(useStore, ['is_loading', 'message']),
+    ...mapState(useFilters, ['filter'])
   },
   methods: {
-    ...mapActions(useStore, ['start_scraping']),
-    search() {
-      return this.start_scraping()
-    }
+    ...mapActions(useStore, ['start_scraping'])
   },
   components: {
     date,
@@ -36,21 +34,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.container {
-  max-width: 25em;
-  margin: 0 auto;
-  padding: 0 2.5rem 2.5rem;
-}
-
-.form .field {
-  padding: 1rem 0;
-}
-
-.input {
-  display: block;
-  width: 100%;
-  padding: 0.5rem;
-}
-</style>

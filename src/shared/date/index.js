@@ -12,13 +12,23 @@ export function formatedDate(date) {
 
 /* */
 export function getWeekRange(date) {
-  return {
-    from: formatedDate(date),
-    to: dayjs(date).add(6, 'day').format(format)
-  }
+  const lastDayOfWeek = dayjs(date).add(6, 'day')
+  return `${formatedDate(date)}-${formatedDate(lastDayOfWeek)}`
 }
 
 /* */
 export function getWeek(date) {
   return dayjs(date).week()
+}
+
+/* */
+export function getDates(date) {
+  const dates = []
+
+  for (let i = 0; i < 7; i++) {
+    const day = dayjs(date).add(i, 'day')
+    dates.push(formatedDate(day))
+  }
+
+  return dates
 }
