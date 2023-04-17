@@ -4,7 +4,7 @@
     <record-label class="field" />
     <button class="btn btn-primary" @click="start_scraping" :disabled="is_loading">
       Search
-      <span v-if="is_loading" class="spinner-border" role="status">
+      <span v-if="is_loading" class="spinner-border spinner-border-sm" role="status">
         <span class="visually-hidden">Searching...</span>
       </span>
     </button>
