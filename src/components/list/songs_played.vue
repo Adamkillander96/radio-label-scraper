@@ -18,7 +18,7 @@
         <summary>
           <strong class="text-primary">{{ song.title }}</strong> was played in
           <span class="text-secondary">{{ song.radioname }}</span> on the
-          {{ clean_date(song.starttimeutc) }}
+          {{ song.starttimeutc }}
         </summary>
         <ul class="list-group mt-3 mb-2">
           <li class="list-group-item" v-if="song.artist">
@@ -45,27 +45,8 @@
   </article>
 </template>
 
-<script>
-import { mapState } from 'pinia'
+<script setup>
 import { useStore } from '../../store'
 
-export default {
-  methods: {
-    clean_date(info) {
-      const date = new Date(
-        Number(info.replace(/\/Date\(/, '').replace(')/', ''))
-      )
-
-      const year = date.getFullYear()
-      const month =
-        date.getMonth() < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
-      const day = date.getDate()
-
-      return `${year}-${month}-${day}`
-    }
-  },
-  computed: {
-    ...mapState(useStore, ['songs_found'])
-  }
-}
+const { songs_found } = useStore()
 </script>

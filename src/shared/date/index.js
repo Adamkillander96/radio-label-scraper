@@ -4,10 +4,15 @@ import weekOfYear from 'dayjs/plugin/weekOfYear'
 dayjs.extend(weekOfYear)
 
 const format = 'YYYY-MM-DD'
+const fullFormat = 'YYYY-MM-DD HH:mm:ss'
 
 /* */
 export function formatedDate(date) {
-  return dayjs(date).format(format)
+  return dayjs(Number(date)).format(format)
+}
+
+export function fullDate(date) {
+  return dayjs(Number(date)).format(fullFormat)
 }
 
 /* */

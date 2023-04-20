@@ -1,4 +1,5 @@
 import { channels } from '../data/radio_channel_ids'
+import { fullDate } from '../date'
 
 export async function retrive_all_radio_channels({ dates, record_label }) {
   const list = channels.map(
@@ -36,6 +37,8 @@ export async function get_radio_channel({ id, name, date, record_label }) {
       (filtered_songs) =>
         filtered_songs?.map((song) => ({
           ...song,
+          starttimeutc: fullDate(song.starttimeutc.replace(/\D/g, '')),
+          stoptimeutc: fullDate(song.stoptimeutc.replace(/\D/g, '')),
           radioid: id,
           radioname: name
         }))
