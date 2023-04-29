@@ -1,15 +1,18 @@
 <template>
   <details v-if="channels && channels.length" class="pb-4">
-    <summary>The list of all the channels we scrape</summary>
-    <ul>
-      <li v-for="({ name, id }, key) in channels" :key="key">
-        <a
-          :href="`https://sverigesradio.se/sida/latlista.aspx?programid=${id}`"
-          target="noopener noreferrer"
-          v-text="name"
-        />
-      </li>
-    </ul>
+    <summary class="btn btn-outline-primary w-100">
+      The list of all the channels we scrape
+    </summary>
+    <div class="list-group">
+      <a
+        v-for="({ name, id }, key) in channels"
+        :key="key"
+        :href="`https://sverigesradio.se/sida/latlista.aspx?programid=${id}`"
+        target="noopener noreferrer"
+        class="list-group-item list-group-item-action"
+        v-text="`P4 ${name}`"
+      />
+    </div>
   </details>
 </template>
 

@@ -1,7 +1,9 @@
 <template>
   <main>
-    <div class="container">
-      <h1>Radio Label Scraper</h1>
+    <article class="container">
+      <header>
+        <h1>Radio Label Scraper</h1>
+      </header>
       <p>
         With this tool, you can select a week and enter a record label name to
         find out if that label played any songs on the swedish radio channel P4.
@@ -10,7 +12,7 @@
       </p>
       <radioChannels />
       <search />
-    </div>
+    </article>
     <songs />
     <searched />
   </main>
@@ -32,19 +34,8 @@ export default {
     songs,
     searched
   },
-  data: () => ({
-    radio_date_start: '',
-    radio_date_end: '',
-    record_label: 'Killander Music Records'
-  }),
   computed: {
-    ...mapState(useStore, [
-      'channels',
-      'filter',
-      'songs',
-      'is_loading',
-      'message'
-    ])
+    ...mapState(useStore, ['channels', 'is_loading', 'message'])
   },
   methods: {
     ...mapActions(useStore, ['start_scraping']),

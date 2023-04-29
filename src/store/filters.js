@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-import { formatedDate, getWeekRange, getWeek, getDates } from '../shared/date'
+import { formatedDate, getWeekRange, getWeek, getDates, isFutureWeek } from '../shared/date'
 
 export const useFilters = defineStore('filters', {
   state: () => ({
@@ -13,6 +13,7 @@ export const useFilters = defineStore('filters', {
     selectedRange: (state) => state.date && getWeekRange(state.date),
     selectedWeek: (state) => state.date && getWeek(state.date),
     dates: (state) => state.date && getDates(state.date),
+    isFutureWeek: (state) => state.week && isFutureWeek(state.week)
   },
   actions: {
     setDate({ valueAsNumber, value }) {

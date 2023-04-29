@@ -86,9 +86,9 @@ $btn-hover-bg-tint-amount: 25%;
 // @import "bootstrap/scss/grid";
 // @import 'bootstrap/scss/tables';
 // @import 'bootstrap/scss/forms';
-@import "bootstrap/scss/forms/labels";
-@import "bootstrap/scss/forms/form-text";
-@import "bootstrap/scss/forms/form-control";
+@import 'bootstrap/scss/forms/labels';
+@import 'bootstrap/scss/forms/form-text';
+@import 'bootstrap/scss/forms/form-control';
 
 @import 'bootstrap/scss/buttons';
 // @import 'bootstrap/scss/transitions';
@@ -100,11 +100,11 @@ $btn-hover-bg-tint-amount: 25%;
 // @import "bootstrap/scss/breadcrumb";
 // @import "bootstrap/scss/accordion";
 // @import "bootstrap/scss/pagination";
-// @import 'bootstrap/scss/badge';
+@import 'bootstrap/scss/badge';
 @import 'bootstrap/scss/alert';
 // @import "bootstrap/scss/progress";
 @import 'bootstrap/scss/list-group';
-// @import "bootstrap/scss/close";
+@import 'bootstrap/scss/close';
 // @import "bootstrap/scss/toasts";
 // @import "bootstrap/scss/modal"; // Requires transitions
 // @import "bootstrap/scss/tooltip";

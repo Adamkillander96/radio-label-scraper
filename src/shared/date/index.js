@@ -22,7 +22,7 @@ export function getWeekRange(date) {
 }
 
 /* */
-export function getWeek(date) {
+export function getWeek(date = dayjs()) {
   return dayjs(date).week()
 }
 
@@ -36,4 +36,27 @@ export function getDates(date) {
   }
 
   return dates
+}
+
+/* */
+export function isFutureWeek(data) {
+  const [year, week] = data.split('-W')
+
+  const selectedYear = Number(year)
+  const selectedWeek = Number(week)
+
+  const currentYear = dayjs().year()
+  const currentWeek = getWeek()
+
+  if (selectedYear > currentYear) {
+    return true
+  }
+
+  if (selectedYear < currentYear) {
+    return false
+  }
+
+  if (selectedYear === currentYear) {
+    return selectedWeek >= currentWeek
+  }
 }

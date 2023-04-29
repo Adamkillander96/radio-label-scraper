@@ -2,13 +2,36 @@
   <form class="form" @submit.prevent>
     <date class="field" />
     <record-label class="field" />
-    <button class="btn btn-primary" @click="start_scraping" :disabled="is_loading">
+    <button
+      class="btn btn-primary me-2"
+      @click="start_scraping"
+      :disabled="is_loading"
+    >
       Search
-      <span v-if="is_loading" class="spinner-border spinner-border-sm" role="status">
+      <span
+        v-if="is_loading"
+        class="spinner-border spinner-border-sm"
+        role="status"
+      >
         <span class="visually-hidden">Searching...</span>
       </span>
     </button>
-    <div class="alert alert-warning my-4" role="alert" v-if="message" v-text="message" />
+    <button class="btn btn-outline-danger" @click="reset_all">Reset</button>
+
+    <div
+      class="alert alert-danger my-4 alert-dismissible"
+      role="alert"
+      v-if="message"
+    >
+      {{ message }}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+        @click="set_message('')"
+      ></button>
+    </div>
   </form>
 </template>
 
@@ -26,7 +49,14 @@ export default {
     ...mapState(useFilters, ['filter'])
   },
   methods: {
-    ...mapActions(useStore, ['start_scraping'])
+    ...mapActions(useStore, ['set_message', 'start_scraping', 'clear_search']),
+    reset_all() {
+      if (
+        confirm('This removes everything. You sure you wanna do that big guy?')
+      ) {
+        clear_search({ all: true })
+      }
+    }
   },
   components: {
     date,
