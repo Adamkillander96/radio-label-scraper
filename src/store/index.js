@@ -13,7 +13,19 @@ export const useStore = defineStore('store', {
     message: ''
   }),
   getters: {
-    is_loading: (state) => state.loading
+    is_loading: (state) => state.loading,
+    songs_found_order: (state) => {
+      const dates = JSON.parse(JSON.stringify(state.songs_found))
+      return dates.sort((a, b) => {
+        return new Date(a.starttimeutc) - new Date(b.starttimeutc)
+      })
+    },
+    weeks_searched_order: (state) => {
+      const weeks = JSON.parse(JSON.stringify(state.weeks_searched))
+      return weeks.sort((a, b) => {
+        return new Date(a.dates[0]) - new Date(b.dates[0])
+      })
+    }
   },
   actions: {
     set_loading(load) {
@@ -23,9 +35,15 @@ export const useStore = defineStore('store', {
       this.message = message
     },
     async start_scraping() {
-      const { dates = [], week, isFutureWeek } = useFilters()
+      const {
+        record_label,
+        dates = [],
+        week,
+        isFutureWeek,
+        selectedWeek
+      } = useFilters()
 
-      if (this.weeks_searched.includes(week)) {
+      if (this.weeks_searched.find((item) => item.week === week)) {
         this.message = 'Date range already searched.'
         return
       }
@@ -41,7 +59,14 @@ export const useStore = defineStore('store', {
       await retrive_all_radio_channels({ dates })
         .then((songs) => songs.flat(2))
         .then((songs) => this.songs_found.push(...songs))
-        .then(() => this.weeks_searched.push(week))
+        .then(() =>
+          this.weeks_searched.push({
+            week,
+            week_number: selectedWeek,
+            dates,
+            record_label
+          })
+        )
         .catch((error) => console.log(error))
         .finally(() => {
           this.loading = false
@@ -55,7 +80,7 @@ export const useStore = defineStore('store', {
       }
 
       const weeks_not_removed = this.weeks_searched.filter(
-        (item) => item !== specific_week
+        ({ week }) => week !== specific_week
       )
       this.weeks_searched = weeks_not_removed
 

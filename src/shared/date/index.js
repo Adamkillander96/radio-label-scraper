@@ -1,18 +1,25 @@
-import dayjs from 'dayjs' // ES 2015
+import dayjs from 'dayjs'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
+import weekday from 'dayjs/plugin/weekday'
 
 dayjs.extend(weekOfYear)
+dayjs.extend(weekday)
 
 const format = 'YYYY-MM-DD'
 const fullFormat = 'YYYY-MM-DD HH:mm:ss'
 
 /* */
 export function formatedDate(date) {
-  return dayjs(Number(date)).format(format)
+  return dayjs(date).format(format)
 }
 
 export function fullDate(date) {
-  return dayjs(Number(date)).format(fullFormat)
+  return dayjs(date).format(fullFormat)
+}
+
+export function getFirstDayOfWeek(date) {
+  const day = dayjs(date).weekday(1)
+  return formatedDate(day)
 }
 
 /* */
@@ -57,6 +64,6 @@ export function isFutureWeek(data) {
   }
 
   if (selectedYear === currentYear) {
-    return selectedWeek >= currentWeek
+    return selectedWeek > currentWeek
   }
 }

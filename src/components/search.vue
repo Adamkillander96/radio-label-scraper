@@ -54,7 +54,7 @@ export default {
       if (
         confirm('This removes everything. You sure you wanna do that big guy?')
       ) {
-        clear_search({ all: true })
+        this.clear_search({ all: true })
       }
     }
   },

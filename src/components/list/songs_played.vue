@@ -11,7 +11,7 @@
     </p>
     <section
       class="list-group"
-      v-for="(song, key) in store.songs_found"
+      v-for="(song, key) in store.songs_found_order"
       :key="key"
     >
       <details
@@ -22,8 +22,9 @@
         <summary>
           <h3 class="fs-5 text-primary">{{ song.title }}</h3>
           <p class="mb-0">
-            <span class="badge bg-primary fw-normal me-2">{{ song.radioname }}</span>
-            <span class="badge bg-secondary fw-normal">{{ song.starttimeutc }}</span>
+            <span class="badge bg-dark fw-normal me-2" v-text="song.radioname" />
+            <span class="badge bg-dark fw-normal me-2" v-text="song.week" />
+            <span class="badge bg-dark fw-normal" v-text="song.starttimeutc" />
           </p>
         </summary>
         <ul class="list-group mt-3 mb-2">
@@ -41,9 +42,6 @@
           </li>
           <li class="list-group-item" v-if="song.lyricist">
             Lyricist: {{ song.lyricist }}
-          </li>
-          <li class="list-group-item" v-if="song.recordlabel">
-            Recordlabel: {{ song.recordlabel }}
           </li>
           <li class="list-group-item" v-if="song.recordlabel">
             Recordlabel: {{ song.recordlabel }}

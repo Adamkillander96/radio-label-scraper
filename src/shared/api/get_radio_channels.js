@@ -36,11 +36,12 @@ export async function get_radio_channel({ id, name, date }) {
     .then((filtered_songs) =>
       filtered_songs?.map((song) => ({
         ...song,
-        starttimeutc: fullDate(song.starttimeutc.replace(/\D/g, '')),
-        stoptimeutc: fullDate(song.stoptimeutc.replace(/\D/g, '')),
+        starttimeutc: fullDate(Number(song.starttimeutc.replace(/\D/g, ''))),
+        stoptimeutc: fullDate(Number(song.stoptimeutc.replace(/\D/g, ''))),
         radioid: id,
         radioname: name,
-        week
+        week,
+        song_id: `${week}-${record_label.replaceAll(' ', '-')}`
       }))
     )
     .catch((err) => console.error(err))

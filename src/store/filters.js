@@ -1,6 +1,12 @@
 import { defineStore } from 'pinia'
-
-import { formatedDate, getWeekRange, getWeek, getDates, isFutureWeek } from '../shared/date'
+import {
+  formatedDate,
+  getWeekRange,
+  getWeek,
+  getDates,
+  isFutureWeek,
+  getFirstDayOfWeek
+} from '../shared/date'
 
 export const useFilters = defineStore('filters', {
   state: () => ({
@@ -11,14 +17,17 @@ export const useFilters = defineStore('filters', {
   getters: {
     formatedDate: (state) => state.date && formatedDate(state.date),
     selectedRange: (state) => state.date && getWeekRange(state.date),
+    readable_range: (state) =>
+      state.date && `${state.dates[0]} to ${state.dates[6]}`,
     selectedWeek: (state) => state.date && getWeek(state.date),
     dates: (state) => state.date && getDates(state.date),
     isFutureWeek: (state) => state.week && isFutureWeek(state.week)
   },
   actions: {
-    setDate({ valueAsNumber, value }) {
-      this.week = value
-      this.date = valueAsNumber
+    setDate({ date, week }) {
+      const firstDay = getFirstDayOfWeek(date)
+      this.date = firstDay
+      this.week = week
     },
     setRecord({ value }) {
       this.record_label = value
