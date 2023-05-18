@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { defineStore, acceptHMRUpdate } from 'pinia'
 import {
   formatedDate,
   getWeekRange,
@@ -35,3 +35,7 @@ export const useFilters = defineStore('filters', {
   },
   persist: true
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useFilters, import.meta.hot))
+}

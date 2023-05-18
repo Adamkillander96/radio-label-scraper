@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { defineStore, acceptHMRUpdate } from 'pinia'
 import { useFilters } from './filters'
 
 import { channels } from '../shared/data/radio_channel_ids'
@@ -95,3 +95,7 @@ export const useStore = defineStore('store', {
     paths: ['songs_found', 'weeks_searched']
   }
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useStore, import.meta.hot))
+}
