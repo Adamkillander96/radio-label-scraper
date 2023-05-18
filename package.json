@@ -15,8 +15,10 @@
 	},
 	"devDependencies": {
 		"@vitejs/plugin-vue": "^4.1.0",
+		"postcss": "^8.4.23",
 		"sass": "^1.62.0",
-		"vite": "^4.2.1"
+		"vite": "^4.2.1",
+		"vite-plugin-html-purgecss": "^0.1.1"
 	},
 	"prettier": {
 		"trailingComma": "none",

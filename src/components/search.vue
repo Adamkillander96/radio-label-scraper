@@ -3,6 +3,7 @@
     <date class="field" />
     <record-label class="field" />
     <button
+      type="button"
       class="btn btn-primary me-2"
       @click="start_scraping"
       :disabled="is_loading"
@@ -16,7 +17,9 @@
         <span class="visually-hidden">Searching...</span>
       </span>
     </button>
-    <button class="btn btn-outline-danger" @click="reset_all">Reset</button>
+    <button type="button" class="btn btn-outline-danger" @click="reset_all">
+      Reset
+    </button>
 
     <div
       class="alert alert-danger my-4 alert-dismissible"
