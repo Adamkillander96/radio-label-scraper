@@ -22,9 +22,9 @@
         <summary>
           <h3 class="fs-5 text-primary">{{ song.title }}</h3>
           <p class="mb-0">
-            <span class="badge bg-dark fw-normal me-2" v-text="song.radioname" />
-            <span class="badge bg-dark fw-normal me-2" v-text="song.week" />
-            <span class="badge bg-dark fw-normal" v-text="song.starttimeutc" />
+            <span class="badge bg-secondary fw-normal me-2" v-text="song.radioname" />
+            <span class="badge bg-primary fw-normal me-2" v-text="song.week" />
+            <span class="badge bg-secondary fw-normal" v-text="song.starttimeutc" />
           </p>
         </summary>
         <ul class="list-group mt-3 mb-2">
@@ -54,7 +54,7 @@
             >
               <a
                 type="button"
-                class="btn btn-secondary flex-fill"
+                class="btn btn-primary flex-fill"
                 :href="getUrl(song)"
                 target="noopener noreferrer"
                 >SR {{ song.radioname }} that day</a
