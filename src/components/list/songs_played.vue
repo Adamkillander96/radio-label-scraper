@@ -44,7 +44,7 @@
             Lyricist: {{ song.lyricist }}
           </li>
           <li class="list-group-item" v-if="song.recordlabel">
-            Recordlabel: {{ song.recordlabel }}
+            Record label: {{ song.recordlabel }}
           </li>
           <li class="list-group-item m-0 p-0">
             <div
